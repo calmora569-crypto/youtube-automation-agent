@@ -1000,7 +1000,7 @@ async function openContent(productionId) {
     const selectedTitleVariant = Number(data.selectedTitleVariant || 0);
     const selectedThumbnailVariant = Number(data.selectedThumbnailVariant || 0);
     $('#content-detail').innerHTML = `
-      <div class="dialog-heading"><div><p class="eyebrow">CONTENT REVIEW</p><h2>${escapeHTML(title)}</h2><div class="meta-line">${statusChip(item.schedule?.status || item.review_status || item.status)} · Quality ${qualityScore(item.qualityChecks)}%</div></div><button type="button" class="close-button" data-close>×</button></div>
+      <div class="dialog-heading"><div><p class="eyebrow">CONTENT REVIEW</p><h2>${escapeHTML(title)}</h2><div class="meta-line">${statusChip(item.schedule?.status || item.review_status || item.status)} · Quality ${qualityScore(item.qualityChecks)}%</div></div><button type="button" class="close-button" aria-label="Close dialog" data-close>×</button></div>
       <form id="content-review-form" class="editor content-review-editor">
         <div class="content-layout">
           <div>
