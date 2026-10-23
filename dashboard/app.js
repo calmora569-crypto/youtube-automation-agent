@@ -1000,7 +1000,7 @@ async function openContent(productionId) {
     const selectedTitleVariant = Number(data.selectedTitleVariant || 0);
     const selectedThumbnailVariant = Number(data.selectedThumbnailVariant || 0);
     $('#content-detail').innerHTML = `
-      <div class="dialog-heading"><div><p class="eyebrow">CONTENT REVIEW</p><h2>${escapeHTML(title)}</h2><div class="meta-line">${statusChip(item.schedule?.status || item.review_status || item.status)} · Quality ${qualityScore(item.qualityChecks)}%</div></div><button type="button" class="close-button" data-close>×</button></div>
+      <div class="dialog-heading"><div><p class="eyebrow">CONTENT REVIEW</p><h2>${escapeHTML(title)}</h2><div class="meta-line">${statusChip(item.schedule?.status || item.review_status || item.status)} · Quality ${qualityScore(item.qualityChecks)}%</div></div><button type="button" class="close-button" data-close aria-label="Close dialog">×</button></div>
       <form id="content-review-form" class="editor content-review-editor">
         <div class="content-layout">
           <div>
@@ -1009,7 +1009,7 @@ async function openContent(productionId) {
             ${item.review_notes ? `<p class="callout">${escapeHTML(item.review_notes)}</p>` : ''}
           </div>
           <div class="editor">
-            <label><span>Title</span><input name="title" maxlength="100" value="${escapeHTML(title)}" required></label>
+            <label><span>Title</span><input name="title" maxlength="100" value="${escapeHTML(title)}" required autofocus></label>
             <label><span>Description</span><textarea name="description" rows="7">${escapeHTML(description)}</textarea></label>
             <label><span>Tags</span><input name="tags" value="${escapeHTML(tags.join(', '))}"></label>
             ${experiment ? `<section class="experiment-panel">

@@ -288,8 +288,8 @@
 
   <dialog id="generate-dialog" class="dialog">
     <form id="generate-form" method="dialog">
-      <div class="dialog-heading"><div><p class="eyebrow">NEW GENERATION JOB</p><h2>Create a video</h2></div><button type="button" class="close-button" data-close>×</button></div>
-      <label><span>Topic <small>optional—leave blank for agent selection</small></span><input name="topic" maxlength="200" placeholder="How small teams can automate repetitive work"></label>
+      <div class="dialog-heading"><div><p class="eyebrow">NEW GENERATION JOB</p><h2>Create a video</h2></div><button type="button" class="close-button" data-close aria-label="Close dialog">×</button></div>
+      <label><span>Topic <small>optional—leave blank for agent selection</small></span><input name="topic" maxlength="200" placeholder="How small teams can automate repetitive work" autofocus></label>
       <div class="form-grid two">
         <label><span>Format</span><select name="style"><option value="explainer">Explainer</option><option value="tutorial">Tutorial</option><option value="list">List</option><option value="review">Review</option><option value="story">Story</option></select></label>
         <label><span>Length</span><select name="length"><option value="short">Short · 2–4 min</option><option value="medium" selected>Medium · 8–12 min</option><option value="long">Long · 15–20 min</option></select></label>
@@ -305,8 +305,8 @@
 
   <dialog id="idea-dialog" class="dialog">
     <form id="idea-form" method="dialog">
-      <div class="dialog-heading"><div><p class="eyebrow">BACKLOG</p><h2>Add a content idea</h2></div><button type="button" class="close-button" data-close>×</button></div>
-      <label><span>Topic</span><input name="topic" maxlength="200" required></label>
+      <div class="dialog-heading"><div><p class="eyebrow">BACKLOG</p><h2>Add a content idea</h2></div><button type="button" class="close-button" data-close aria-label="Close dialog">×</button></div>
+      <label><span>Topic</span><input name="topic" maxlength="200" required autofocus></label>
       <label><span>Angle</span><textarea name="angle" rows="3" placeholder="What makes this take distinctive?"></textarea></label>
       <label><span>Why it is worth making</span><textarea name="rationale" rows="2"></textarea></label>
       <label><span>Format</span><select name="style"><option value="explainer">Explainer</option><option value="tutorial">Tutorial</option><option value="list">List</option><option value="review">Review</option><option value="story">Story</option></select></label>
