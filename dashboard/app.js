@@ -1630,12 +1630,18 @@ $('#pipeline-filter').addEventListener('change', () => renderPipeline(ui.state?.
 
 $('#experiment-create-form').addEventListener('submit', async event => {
   event.preventDefault();
+  const btn = event.currentTarget.querySelector('button[type="submit"]');
+  const originalText = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'Creating...';
   const values = Object.fromEntries(new FormData(event.currentTarget));
   await mutate('/api/experiments', 'POST', {
     productionId: values.productionId,
     armDurationHours: Number(values.armDurationHours),
     minImpressions: Number(values.minImpressions)
   }, 'Draft growth experiment created for review.').catch(() => {});
+  btn.disabled = false;
+  btn.textContent = originalText;
 });
 
 $('#run-readiness-button').addEventListener('click', async event => {
@@ -1677,7 +1683,13 @@ function strategyFormData(status = ui.state?.channelStrategy?.status || 'draft')
 
 $('#strategy-form').addEventListener('submit', async event => {
   event.preventDefault();
+  const btn = event.currentTarget.querySelector('button[type="submit"]');
+  const originalText = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'Saving...';
   await mutate('/api/operator/strategy', 'PUT', strategyFormData(), 'Channel strategy saved.').catch(() => {});
+  btn.disabled = false;
+  btn.textContent = originalText;
 });
 
 $('#activate-operator-button').addEventListener('click', async () => {
@@ -1705,26 +1717,44 @@ $('#resume-operator-run').addEventListener('click', async event => {
 
 $('#generate-form').addEventListener('submit', async event => {
   event.preventDefault();
+  const btn = event.currentTarget.querySelector('button[type="submit"]');
+  const originalText = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'Starting...';
   const values = Object.fromEntries(new FormData(event.currentTarget));
   try {
     await mutate('/generate', 'POST', { ...values, topic: values.topic.trim() || null }, 'Generation job started.');
     $('#generate-dialog').close();
     event.currentTarget.reset();
-  } catch (_error) { /* toast already shown */ }
+  } catch (_error) { /* toast already shown */ } finally {
+    btn.disabled = false;
+    btn.textContent = originalText;
+  }
 });
 
 $('#idea-form').addEventListener('submit', async event => {
   event.preventDefault();
+  const btn = event.currentTarget.querySelector('button[type="submit"]');
+  const originalText = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'Adding...';
   const values = Object.fromEntries(new FormData(event.currentTarget));
   try {
     await mutate('/api/ideas', 'POST', values, 'Idea added to the backlog.');
     $('#idea-dialog').close();
     event.currentTarget.reset();
-  } catch (_error) { /* toast already shown */ }
+  } catch (_error) { /* toast already shown */ } finally {
+    btn.disabled = false;
+    btn.textContent = originalText;
+  }
 });
 
 $('#profile-form').addEventListener('submit', async event => {
   event.preventDefault();
+  const btn = event.currentTarget.querySelector('button[type="submit"]');
+  const originalText = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'Saving...';
   const values = Object.fromEntries(new FormData(event.currentTarget));
   values.bannedTopics = values.bannedTopics.split(',').map(value => value.trim()).filter(Boolean);
   try {
@@ -1738,7 +1768,10 @@ $('#profile-form').addEventListener('submit', async event => {
       video_clip_duration: Number(values.videoClipDuration),
       video_max_generated_seconds: Number(values.videoMaxGeneratedSeconds)
     }, 'Operator settings saved.');
-  } catch (_error) { /* toast already shown */ }
+  } catch (_error) { /* toast already shown */ } finally {
+    btn.disabled = false;
+    btn.textContent = originalText;
+  }
 });
 
 $('#api-key-button').addEventListener('click', () => {
