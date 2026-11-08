@@ -213,7 +213,7 @@ function renderJobs(jobs) {
         <div class="meta-line">${statusChip(job.status)} · ${escapeHTML(label(job.stage))} · ${timeAgo(job.updated_at)}</div>
         ${checkpoints.length ? `<div class="checkpoint-line">${completed.size}/${stages.length} stages saved${job.details?.reusedStages?.length ? ` · ${job.details.reusedStages.length} reused` : ''}</div>` : ''}
         ${mediaTasks.length ? `<div class="checkpoint-line">Video: ${mediaCompleted}/${mediaTasks.length} clips ready · ${escapeHTML(mediaProviders)}</div>` : ''}
-        <div class="progress"><i style="width:${Math.max(0, Math.min(100, job.progress || 0))}%"></i></div>
+        <div class="progress" role="progressbar" aria-valuenow="${Math.max(0, Math.min(100, job.progress || 0))}" aria-valuemin="0" aria-valuemax="100"><i style="width:${Math.max(0, Math.min(100, job.progress || 0))}%"></i></div>
       </div>
       ${['queued', 'running'].includes(job.status) ? `<button class="text-button" data-cancel-job="${escapeHTML(job.id)}">Cancel</button>` : ''}
       ${recoverable ? `<div class="job-recovery"><select data-resume-stage-for="${escapeHTML(job.id)}" aria-label="Stage to resume from">${stages.map(stage => `<option value="${stage}" ${stage === resumeFrom ? 'selected' : ''}>${escapeHTML(label(stage))}</option>`).join('')}</select><button class="button secondary small" data-resume-job="${escapeHTML(job.id)}">Resume</button></div>` : ''}
@@ -728,7 +728,7 @@ function renderOperator(strategy, runs, system) {
   $('#operator-run-title').textContent = `${label(run.stage)} · ${run.progress || 0}%`;
   const sources = Array.isArray(run.research?.sources) ? run.research.sources.join(', ') : 'Research pending';
   $('#operator-run-summary').innerHTML = `<div class="run-summary">
-    <div class="progress"><i style="width:${Math.max(0, Math.min(100, run.progress || 0))}%"></i></div>
+    <div class="progress" role="progressbar" aria-valuenow="${Math.max(0, Math.min(100, run.progress || 0))}" aria-valuemin="0" aria-valuemax="100"><i style="width:${Math.max(0, Math.min(100, run.progress || 0))}%"></i></div>
     <div class="run-summary-row"><span>Status</span><strong>${statusChip(run.status)}</strong></div>
     <div class="run-summary-row"><span>Research</span><strong>${escapeHTML(sources)}</strong></div>
     <div class="run-summary-row"><span>Produced</span><strong>${escapeHTML(run.summary?.generated || 0)} / ${escapeHTML(run.summary?.planned || run.plan?.length || 0)}</strong></div>
@@ -782,7 +782,15 @@ function populateSettings(profile = {}, settings = {}, providers = []) {
 
 function switchView(view) {
   ui.currentView = view;
-  $$('.nav-item').forEach(item => item.classList.toggle('active', item.dataset.view === view));
+  $$('.nav-item').forEach(item => {
+    const isActive = item.dataset.view === view;
+    item.classList.toggle('active', isActive);
+    if (isActive) {
+      item.setAttribute('aria-current', 'page');
+    } else {
+      item.removeAttribute('aria-current');
+    }
+  });
   $$('.view').forEach(item => item.classList.toggle('active', item.id === `${view}-view`));
   const titles = {
     overview: ['OPERATOR OVERVIEW', 'Know what happens next.'],
